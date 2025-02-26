@@ -1,5 +1,10 @@
 # SincNet-PD-Diagnosis
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1V6HkhIrxScbJlf4KdTDLV_V4evYaQ8UN?usp=sharing)
+![Python](https://img.shields.io/badge/Python-3.8-blue)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)
+![Status](https://img.shields.io/badge/status-active-green)
+
 ## Overview
 This repository contains the implementation of an **explainable deep learning model** for diagnosing **Parkinson’s Disease (PD)** using **gait cycle analysis**. The proposed method is based on **SincNet filters**, which act as adaptive bandpass filters to extract key frequency features from gait signals. This approach ensures better interpretability of model decisions compared to traditional deep learning techniques.
 

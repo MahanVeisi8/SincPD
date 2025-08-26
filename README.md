@@ -60,7 +60,7 @@ SincPD/
 ## 📥 Installation
 Clone the repo and install dependencies:
 ```bash
-git clone https://github.com/<YOUR_USER_OR_ORG>/SincPD.git
+git clone https://github.com/MahanVeisi8/SincPD.git
 cd SincPD
 python -m venv .venv && source .venv/bin/activate
 pip install -e .[dev]

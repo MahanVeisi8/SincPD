@@ -31,7 +31,7 @@ python3 -m pip install -e .[dev]
 git clone https://github.com/MahanVeisi8/SincPD.git
 cd SincPD
 py -3 -m venv .venv
-.\.venv\Scriptsctivate
+.\.venv\Scripts\activate
 py -m pip install -U pip
 py -m pip install -e .[dev]
 ```

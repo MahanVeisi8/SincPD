@@ -18,7 +18,7 @@ The repository provides **modular PyTorch code**, a **command-line interface (CL
 
 ### Linux / macOS
 ```bash
-git clone https://github.com/<YOUR_USER_OR_ORG>/SincPD.git
+git clone https://github.com/MahanVeisi8/SincPD.git
 cd SincPD
 python3 -m venv .venv
 source .venv/bin/activate
@@ -28,7 +28,7 @@ python3 -m pip install -e .[dev]
 
 ### Windows (PowerShell)
 ```powershell
-git clone https://github.com/<YOUR_USER_OR_ORG>/SincPD.git
+git clone https://github.com/MahanVeisi8/SincPD.git
 cd SincPD
 py -3 -m venv .venv
 .\.venv\Scriptsctivate

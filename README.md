@@ -1,129 +1,135 @@
-# SincPD (PyTorch)
+# SincPD (PyTorch) — **Working README**
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1V6HkhIrxScbJlf4KdTDLV_V4evYaQ8UN?usp=sharing)
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
-![Status](https://img.shields.io/badge/status-active-green)
 
-![Model](asset/Main_model_plot-1.png)
-
-## 🔎 Overview
-**SincPD** is an explainable deep learning model for **Parkinson’s Disease (PD) diagnosis** and **severity estimation** using **gait cycle analysis**.  
-It leverages **SincNet filters** as adaptive bandpass filters to extract key frequency features from vertical Ground Reaction Force (vGRF) signals, providing **better interpretability** compared to conventional black-box neural networks.
-
-- Paper: [arXiv preprint](https://arxiv.org/abs/2502.17463)
-- Authors: Armin Salimi-Badr, Mahan Veisi, Sadra Berangi
+SincPD is an **explainable deep learning model** for **Parkinson’s Disease (PD) diagnosis** and **severity estimation** from **gait vGRF signals**.  
+The repository provides **modular PyTorch code**, a **command-line interface (CLI)**, **reproducible notebooks**, YAML configs, and lightweight tests.
 
 ---
 
-## 🧩 Key Contributions
-- **Adaptive Sinc Filters** for interpretable feature extraction from gait signals.  
-- **Explainable AI** via clustering-based pruning (K-Means + silhouette).  
-- **PD Diagnosis & Severity Estimation** with state-of-the-art accuracy.  
-- **Reproducibility** ensured through Jupyter notebooks and modular Python package.  
+## 0) Requirements
+- Python 3.10 or 3.11  
+- pip (latest version recommended)  
+- (Optional) Git and Make  
 
 ---
 
-## 🏗 Repository Structure
-```text
-SincPD/
-├─ pyproject.toml             # Packaging (PEP 621)
-├─ requirements.txt           # Dependencies
-├─ Makefile                   # Common tasks (train, test, lint, ...)
-├─ README.md
-├─ data/                      # (empty) place PhysioNet gait dataset here
-│   └─ README.md
-├─ notebooks/                 # Reproducible experiments
-│   ├─ 00_quickstart.ipynb
-│   └─ SincNet_PD_Severity.ipynb
-├─ scripts/                   # Helper scripts (demo, shell)
-├─ src/sincpd/                # Source code (installable package)
-│   ├─ models/                # SincConv + CNN head
-│   ├─ data/                  # Datasets & transforms
-│   ├─ training/              # Training loop & optimizer
-│   ├─ pruning/               # KMeans-based pruning
-│   ├─ eval/                  # Metrics & evaluation
-│   ├─ utils/                 # Seed, IO, plotting
-│   ├─ configs/               # YAML configs
-│   └─ cli.py                 # Command-line interface
-└─ tests/                     # Pytest smoke-tests
-```
+## 1) Clone and create virtual environment
 
----
-
-## 📊 Performance (from paper)
-- **98.77% accuracy** for PD vs. healthy classification  
-- **97.22% accuracy** for PD severity prediction
-
----
-
-## 📥 Installation
-Clone the repo and install dependencies:
+### Linux / macOS
 ```bash
-git clone https://github.com/MahanVeisi8/SincPD.git
+git clone https://github.com/<YOUR_USER_OR_ORG>/SincPD.git
 cd SincPD
-python -m venv .venv && source .venv/bin/activate
-pip install -e .[dev]
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -U pip
+python3 -m pip install -e .[dev]
+```
+
+### Windows (PowerShell)
+```powershell
+git clone https://github.com/<YOUR_USER_OR_ORG>/SincPD.git
+cd SincPD
+py -3 -m venv .venv
+.\.venv\Scriptsctivate
+py -m pip install -U pip
+py -m pip install -e .[dev]
 ```
 
 ---
 
-## 📂 Dataset
-We use the [PhysioNet Gait Database](https://physionet.org/content/gaitpdb/1.0.0/).  
-Please download and place it under `data/physionet_gait/`.
+## 2) Quick Demo (no real data required)
 
----
-
-## 🚀 Usage
-
-### Quickstart (demo with synthetic data)
+### Linux / macOS
 ```bash
-make demo
+python3 scripts/demo_quickstart.py
+# Output: runs/demo/model.pt
 ```
-Trains a tiny model on a dummy dataset and saves a checkpoint to `runs/demo/`.
 
-### Training on real data
+### Windows
+```powershell
+py scripts\demo_quickstart.py
+# Output: runs\demo\model.pt
+```
+
+This demo uses a dummy dataset to verify the installation.
+
+---
+
+## 3) Training / Evaluation / Pruning via CLI
+
+### Linux / macOS
 ```bash
-sincpd train --config src/sincpd/configs/default.yaml
+python3 -m sincpd.cli train --config src/sincpd/configs/default.yaml
+python3 -m sincpd.cli eval --ckpt runs/diag_default/model.pt --split val
+python3 -m sincpd.cli prune --ckpt runs/diag_default/model.pt
 ```
 
-### Pruning filters
+### Windows
+```powershell
+py -m sincpd.cli train --config src\sincpd\configs\default.yaml
+py -m sincpd.cli eval --ckpt runs\diag_default\model.pt --split val
+py -m sincpd.cli prune --ckpt runs\diag_default\model.pt
+```
+
+> Tip: Using `python -m sincpd.cli` ensures the CLI always works even if `sincpd` is not directly on PATH.
+
+---
+
+## 4) Repository Structure
+```
+SincPD/
+  notebooks/              # Jupyter notebooks
+  src/sincpd/             # Package source code
+    models/               # SincConv + CNN head
+    data/                 # datasets.py, transforms.py
+    training/             # trainer.py, optim.py
+    pruning/              # kmeans_prune.py
+    eval/                 # metrics.py
+    utils/                # seed.py, io.py, plotting.py
+    configs/              # default.yaml, severity.yaml
+    cli.py                # CLI entry point
+  tests/                  # Pytest smoke tests
+  scripts/                # demo_quickstart.py
+  runs/                   # outputs (created after training)
+```
+
+---
+
+## 5) Real Dataset
+- Dataset: [PhysioNet Gait Database](https://physionet.org/content/gaitpdb/1.0.0/)  
+- Place under: `data/physionet_gait/`  
+- If the format differs, adapt `src/sincpd/data/datasets.py`.  
+
+---
+
+## 6) Testing & Code Quality
 ```bash
-sincpd prune --ckpt runs/diag_default/model.pt
-```
-
-### Evaluate a checkpoint
-```bash
-sincpd eval --ckpt runs/diag_default/model.pt --split val
+pytest -q
+pre-commit run --all-files
 ```
 
 ---
 
-## 📓 Reproducibility
-- All experiments are available as Jupyter notebooks (`notebooks/`).  
-- Notebooks import from the `src/` package to ensure consistency.  
-- Seeds are fixed via `sincpd.utils.seed` for reproducible results.  
+## 7) Troubleshooting
+- **`sincpd: command not found`** → use `python -m sincpd.cli ...` instead.  
+- **`python: command not found`** → use `python3` (Linux/macOS) or `py` (Windows).  
+- **PyTorch installation fails?**
+  - CPU-only:
+    ```bash
+    python3 -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+    ```
+    or on Windows:
+    ```powershell
+    py -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+    ```
 
 ---
 
-## 📈 Roadmap
-- [ ] Release pretrained models.  
-- [ ] Add support for severity regression tasks.  
-- [ ] Extend to other biosignal domains (EEG, protein sequences).  
-
----
-
-## 👥 Contributors
-- **Mahan Veisi**
-- **Sadra Berangi**
-- **Armin Salimi-Badr**
-
----
-
-## 📜 Citation
+## 8) Citation
 ```bibtex
 @misc{salimibadr2025sincpdexplainablemethodbased,
-  title={SincPD: An Explainable Method based on Sinc Filters to Diagnose Parkinson's Disease Severity by Gait Cycle Analysis}, 
+  title={SincPD: An Explainable Method based on Sinc Filters to Diagnose Parkinson's Disease Severity by Gait Cycle Analysis},
   author={Armin Salimi-Badr and Mahan Veisi and Sadra Berangi},
   year={2025},
   eprint={2502.17463},
@@ -135,5 +141,5 @@ sincpd eval --ckpt runs/diag_default/model.pt --split val
 
 ---
 
-## ⚖️ License
+## 9) License
 MIT (see [LICENSE](./LICENSE))

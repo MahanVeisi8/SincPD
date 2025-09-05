@@ -7,7 +7,7 @@
 ![Status](https://img.shields.io/badge/status-active-green)
 
 
-![Model](asset/Main_model_plot-1.png)
+![Model](asset/Main_model_plot-1.jpg)
 
 ## Overview
 This repository hosts the implementation of an **explainable deep learning model** (SincPD) for **Parkinson’s Disease (PD) diagnosis** and **severity estimation** through **gait cycle analysis**. Leveraging **SincNet filters** as adaptive bandpass filters, our approach extracts key frequency features from vertical Ground Reaction Force (vGRF) signals. Such a design promotes better interpretability compared to conventional deep neural networks.

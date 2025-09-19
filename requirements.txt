@@ -1,7 +1,6 @@
-numpy
-scipy
-scikit-learn
-matplotlib
-tqdm
-pandas
 tensorflow
+sincnet_tensorflow
+numpy
+pandas
+matplotlib
+scikit-learn
